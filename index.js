@@ -46,7 +46,7 @@ async function run(){
          const result = await cursor.toArray();
          res.send(result)
       })
-      // hompage services
+      // homepage services
       app.get('/defaultServices', async (req, res) => {
          const query = {};
          const cursor = serviceCollection.find(query).limit(3);
