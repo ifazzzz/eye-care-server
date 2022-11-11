@@ -22,6 +22,7 @@ async function run(){
     try {
       const serviceCollection = client.db('eye-care').collection('care-services');
       const reviewCollection = client.db('eye-care').collection('reviews');
+      const addedService = client.db('eye-care').collection('addedService');
 
       app.get('/services', async (req, res) => {
          const query = {};
@@ -44,12 +45,19 @@ async function run(){
          res.send(service);
       })
 
-      app.post('/services', async (req, res) => {
+      app.post('/addedServices', async (req, res) => {
         const service = req.body;
-        const result = serviceCollection.insertOne(service)
+        const result = await addedService.insertOne(service)
         res.send(result)
       })
-      
+
+      app.get('/addedServices', async (req, res) => {
+        const query = {};
+        const cursor = addedService.find(query);
+        const result = await cursor.toArray();
+        res.send(result)
+     })
+
       app.post('/addReview', async (req, res) => {
         const review = req.body;
         const collection = await reviewCollection.insertOne(review);
